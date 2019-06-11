@@ -1,0 +1,170 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="smartcartdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="cart">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="product_id" Type="Int32" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="price" Type="Double" />
+    <Property Name="total" Type="Double" />
+    <Property Name="receipt_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="receipt" Relationship="smartcartdbModel.FK__cart__receipt_id__6D0D32F4" FromRole="cart" ToRole="receipt" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="price" Type="Double" />
+    <Property Name="quantity" Type="Int32" />
+    <Property Name="barcode" Type="Int64" Nullable="false" />
+    <Property Name="discount" Type="Double" />
+  </EntityType>
+  <EntityType Name="receipt">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" />
+    <Property Name="user_id" Type="Int32" />
+    <Property Name="cart_id" Type="Int32" />
+    <Property Name="date" Type="DateTime" />
+    <Property Name="total" Type="Double" />
+    <Property Name="payment" Type="Double" />
+    <Property Name="store_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="carts" Relationship="smartcartdbModel.FK__cart__receipt_id__6D0D32F4" FromRole="receipt" ToRole="cart" />
+    <NavigationProperty Name="userr" Relationship="smartcartdbModel.FK__receipt__user_id__7B5B524B" FromRole="receipt" ToRole="userr" />
+  </EntityType>
+  <EntityType Name="role">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="userrs" Relationship="Self.FK__userr__role_id__68487DD7" FromRole="roles" ToRole="userr" />
+  </EntityType>
+  <EntityType Name="userr">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="role_id" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="role" Relationship="Self.FK__userr__role_id__68487DD7" FromRole="userr" ToRole="roles" />
+    <NavigationProperty Name="receipts" Relationship="smartcartdbModel.FK__receipt__user_id__7B5B524B" FromRole="userr" ToRole="receipt" />
+  </EntityType>
+  <EntityType Name="database_firewall_rules">
+    <Key>
+      <PropertyRef Name="id" />
+      <PropertyRef Name="name" />
+      <PropertyRef Name="start_ip_address" />
+      <PropertyRef Name="end_ip_address" />
+      <PropertyRef Name="create_date" />
+      <PropertyRef Name="modify_date" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="start_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="end_ip_address" Type="String" MaxLength="45" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="create_date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="modify_date" Type="DateTime" Nullable="false" Precision="3" />
+  </EntityType>
+  <Association Name="FK__userr__role_id__68487DD7">
+    <End Role="roles" Type="Self.role" Multiplicity="1" />
+    <End Role="userr" Type="Self.userr" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="roles">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="userr">
+        <PropertyRef Name="role_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="smartcartdbEntities2" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="carts" EntityType="Self.cart" />
+    <EntitySet Name="products" EntityType="Self.product" />
+    <EntitySet Name="receipts" EntityType="Self.receipt" />
+    <EntitySet Name="roles" EntityType="Self.role" />
+    <EntitySet Name="userrs" EntityType="Self.userr" />
+    <EntitySet Name="database_firewall_rules" EntityType="Self.database_firewall_rules" />
+    <AssociationSet Name="FK__userr__role_id__68487DD7" Association="Self.FK__userr__role_id__68487DD7">
+      <End Role="roles" EntitySet="roles" />
+      <End Role="userr" EntitySet="userrs" />
+    </AssociationSet>
+    <FunctionImport Name="LOGIN_USER" ReturnType="Collection(smartcartdbModel.LOGIN_USER_Result)">
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="pass" Mode="In" Type="String" />
+    </FunctionImport>
+    <FunctionImport Name="RETURN_PRODUCT" ReturnType="Collection(smartcartdbModel.RETURN_PRODUCT_Result)">
+      <Parameter Name="barcode" Mode="In" Type="Int64" />
+    </FunctionImport>
+    <FunctionImport Name="SIGNUP_USER">
+      <Parameter Name="name" Mode="In" Type="String" />
+      <Parameter Name="email" Mode="In" Type="String" />
+      <Parameter Name="password" Mode="In" Type="String" />
+    </FunctionImport>
+    <AssociationSet Name="FK__cart__receipt_id__6D0D32F4" Association="smartcartdbModel.FK__cart__receipt_id__6D0D32F4">
+      <End Role="receipt" EntitySet="receipts" />
+      <End Role="cart" EntitySet="carts" />
+    </AssociationSet>
+    <AssociationSet Name="FK__receipt__user_id__7B5B524B" Association="smartcartdbModel.FK__receipt__user_id__7B5B524B">
+      <End Role="userr" EntitySet="userrs" />
+      <End Role="receipt" EntitySet="receipts" />
+    </AssociationSet>
+    <FunctionImport Name="NEW_RECEIPT">
+      <Parameter Name="user_id" Mode="In" Type="Int32" />
+      <Parameter Name="date" Mode="In" Type="String" />
+      <Parameter Name="total" Mode="In" Type="Double" />
+      <Parameter Name="payment" Mode="In" Type="Int32" />
+      <Parameter Name="total_paid" Mode="In" Type="Double" />
+      <Parameter Name="total_returned" Mode="In" Type="Double" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="LOGIN_USER_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="email" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="password" Nullable="true" />
+    <Property Type="Int32" Name="role_id" Nullable="false" />
+  </ComplexType>
+  <ComplexType Name="RETURN_PRODUCT_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+    <Property Type="String" Name="description" Nullable="true" />
+    <Property Type="Double" Name="price" Nullable="true" />
+    <Property Type="Int32" Name="quantity" Nullable="true" />
+    <Property Type="Int64" Name="barcode" Nullable="false" />
+    <Property Type="Double" Name="discount" Nullable="true" />
+  </ComplexType>
+  <Association Name="FK__cart__receipt_id__6D0D32F4">
+    <End Type="smartcartdbModel.receipt" Role="receipt" Multiplicity="1" />
+    <End Type="smartcartdbModel.cart" Role="cart" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="receipt">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cart">
+        <PropertyRef Name="receipt_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__receipt__user_id__7B5B524B">
+    <End Type="smartcartdbModel.userr" Role="userr" Multiplicity="0..1" />
+    <End Type="smartcartdbModel.receipt" Role="receipt" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="userr">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="receipt">
+        <PropertyRef Name="user_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

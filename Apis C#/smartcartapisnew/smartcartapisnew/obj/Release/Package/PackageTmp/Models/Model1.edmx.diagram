@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d586f569317444fabdd7729204af3a03" Name="Diagram1">
+        <EntityTypeShape EntityType="smartcartdbModel.cart" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="smartcartdbModel.product" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="smartcartdbModel.receipt" Width="1.5" PointX="5.25" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="smartcartdbModel.role" Width="1.5" PointX="0.75" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="smartcartdbModel.userr" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
+        <AssociationConnector Association="smartcartdbModel.FK__cart__receipt_id__6D0D32F4" ManuallyRouted="false" />
+        <AssociationConnector Association="smartcartdbModel.FK__receipt__user_id__7B5B524B" ManuallyRouted="false" />
+        <AssociationConnector Association="smartcartdbModel.FK__userr__role_id__68487DD7" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

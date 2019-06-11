@@ -1,0 +1,424 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="smartcartdbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="product_id" Type="int" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="price" Type="float" />
+          <Property Name="total" Type="float" />
+          <Property Name="receipt_id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="description" Type="varchar(max)" />
+          <Property Name="price" Type="float" />
+          <Property Name="quantity" Type="int" />
+          <Property Name="barcode" Type="bigint" Nullable="false" />
+          <Property Name="discount" Type="float" />
+        </EntityType>
+        <EntityType Name="receipt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="user_id" Type="int" />
+          <Property Name="date" Type="nvarchar" MaxLength="50" />
+          <Property Name="total" Type="float" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'smartcartdb.dbo.rights' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="rights">
+          <Property Name="id" Type="int" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>-->
+        <!--Errors Found During Generation:
+warning 6013: The table/view 'smartcartdb.dbo.role_rights' does not have a primary key defined and no valid primary key could be inferred. This table/view has been excluded. To use the entity, you will need to review your schema, add the correct keys, and uncomment it.
+        <EntityType Name="role_rights">
+          <Property Name="id" Type="int" />
+          <Property Name="role_id" Type="int" />
+          <Property Name="right_id" Type="int" />
+        </EntityType>-->
+        <EntityType Name="roles">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="userr">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+          <Property Name="email" Type="varchar" MaxLength="50" />
+          <Property Name="password" Type="varchar(max)" />
+          <Property Name="role_id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__cart__receipt_id__6D0D32F4">
+          <End Role="receipt" Type="Self.receipt" Multiplicity="1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="receipt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__receipt__user_id__7B5B524B">
+          <End Role="userr" Type="Self.userr" Multiplicity="0..1" />
+          <End Role="receipt" Type="Self.receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userr">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="receipt">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__userr__role_id__68487DD7">
+          <End Role="roles" Type="Self.roles" Multiplicity="1" />
+          <End Role="userr" Type="Self.userr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="userr">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="GET_RECEIPTS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="LOGIN_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="email" Type="nvarchar" Mode="In" />
+          <Parameter Name="pass" Type="nvarchar(max)" Mode="In" />
+        </Function>
+        <Function Name="NEW_RECEIPT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="user_id" Type="int" Mode="In" />
+          <Parameter Name="date" Type="nvarchar" Mode="In" />
+          <Parameter Name="total" Type="float" Mode="In" />
+        </Function>
+        <Function Name="RETURN_PRODUCT" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="barcode" Type="bigint" Mode="In" />
+        </Function>
+        <Function Name="SIGNUP_USER" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="name" Type="varchar" Mode="In" />
+          <Parameter Name="email" Type="varchar" Mode="In" />
+          <Parameter Name="password" Type="varchar(max)" Mode="In" />
+        </Function>
+        <EntityContainer Name="smartcartdbModelStoreContainer">
+          <EntitySet Name="cart" EntityType="Self.cart" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="receipt" EntityType="Self.receipt" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="roles" EntityType="Self.roles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="userr" EntityType="Self.userr" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__cart__receipt_id__6D0D32F4" Association="Self.FK__cart__receipt_id__6D0D32F4">
+            <End Role="receipt" EntitySet="receipt" />
+            <End Role="cart" EntitySet="cart" />
+          </AssociationSet>
+          <AssociationSet Name="FK__receipt__user_id__7B5B524B" Association="Self.FK__receipt__user_id__7B5B524B">
+            <End Role="userr" EntitySet="userr" />
+            <End Role="receipt" EntitySet="receipt" />
+          </AssociationSet>
+          <AssociationSet Name="FK__userr__role_id__68487DD7" Association="Self.FK__userr__role_id__68487DD7">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="userr" EntitySet="userr" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="smartcartdbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="cart">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="product_id" Type="Int32" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="price" Type="Double" />
+          <Property Name="total" Type="Double" />
+          <Property Name="receipt_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="receipt" Relationship="Self.FK__cart__receipt_id__6D0D32F4" FromRole="cart" ToRole="receipt" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="price" Type="Double" />
+          <Property Name="quantity" Type="Int32" />
+          <Property Name="barcode" Type="Int64" Nullable="false" />
+          <Property Name="discount" Type="Double" />
+        </EntityType>
+        <EntityType Name="receipt">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="user_id" Type="Int32" />
+          <Property Name="date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="total" Type="Double" />
+          <NavigationProperty Name="carts" Relationship="Self.FK__cart__receipt_id__6D0D32F4" FromRole="receipt" ToRole="cart" />
+          <NavigationProperty Name="userr" Relationship="Self.FK__receipt__user_id__7B5B524B" FromRole="receipt" ToRole="userr" />
+        </EntityType>
+        <EntityType Name="role">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="userrs" Relationship="Self.FK__userr__role_id__68487DD7" FromRole="roles" ToRole="userr" />
+        </EntityType>
+        <EntityType Name="userr">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="role_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="receipts" Relationship="Self.FK__receipt__user_id__7B5B524B" FromRole="userr" ToRole="receipt" />
+          <NavigationProperty Name="role" Relationship="Self.FK__userr__role_id__68487DD7" FromRole="userr" ToRole="roles" />
+        </EntityType>
+        <Association Name="FK__cart__receipt_id__6D0D32F4">
+          <End Role="receipt" Type="Self.receipt" Multiplicity="1" />
+          <End Role="cart" Type="Self.cart" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="receipt">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="cart">
+              <PropertyRef Name="receipt_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__receipt__user_id__7B5B524B">
+          <End Role="userr" Type="Self.userr" Multiplicity="0..1" />
+          <End Role="receipt" Type="Self.receipt" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="userr">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="receipt">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__userr__role_id__68487DD7">
+          <End Role="roles" Type="Self.role" Multiplicity="1" />
+          <End Role="userr" Type="Self.userr" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="roles">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="userr">
+              <PropertyRef Name="role_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="smartcartdbEntities7" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="carts" EntityType="Self.cart" />
+          <EntitySet Name="products" EntityType="Self.product" />
+          <EntitySet Name="receipts" EntityType="Self.receipt" />
+          <EntitySet Name="roles" EntityType="Self.role" />
+          <EntitySet Name="userrs" EntityType="Self.userr" />
+          <AssociationSet Name="FK__cart__receipt_id__6D0D32F4" Association="Self.FK__cart__receipt_id__6D0D32F4">
+            <End Role="receipt" EntitySet="receipts" />
+            <End Role="cart" EntitySet="carts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__receipt__user_id__7B5B524B" Association="Self.FK__receipt__user_id__7B5B524B">
+            <End Role="userr" EntitySet="userrs" />
+            <End Role="receipt" EntitySet="receipts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__userr__role_id__68487DD7" Association="Self.FK__userr__role_id__68487DD7">
+            <End Role="roles" EntitySet="roles" />
+            <End Role="userr" EntitySet="userrs" />
+          </AssociationSet>
+          <FunctionImport Name="GET_RECEIPTS" ReturnType="Collection(smartcartdbModel.GET_RECEIPTS_Result)">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="LOGIN_USER" ReturnType="Collection(smartcartdbModel.LOGIN_USER_Result)">
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="pass" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="NEW_RECEIPT" ReturnType="Collection(Decimal)">
+            <Parameter Name="user_id" Mode="In" Type="Int32" />
+            <Parameter Name="date" Mode="In" Type="String" />
+            <Parameter Name="total" Mode="In" Type="Double" />
+          </FunctionImport>
+          <FunctionImport Name="RETURN_PRODUCT" ReturnType="Collection(smartcartdbModel.RETURN_PRODUCT_Result)">
+            <Parameter Name="barcode" Mode="In" Type="Int64" />
+          </FunctionImport>
+          <FunctionImport Name="SIGNUP_USER">
+            <Parameter Name="name" Mode="In" Type="String" />
+            <Parameter Name="email" Mode="In" Type="String" />
+            <Parameter Name="password" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="GET_RECEIPTS_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="Int32" Name="user_id" Nullable="true" />
+          <Property Type="String" Name="date" Nullable="true" MaxLength="50" />
+          <Property Type="Double" Name="total" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="LOGIN_USER_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="password" Nullable="true" />
+          <Property Type="Int32" Name="role_id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="RETURN_PRODUCT_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="description" Nullable="true" />
+          <Property Type="Double" Name="price" Nullable="true" />
+          <Property Type="Int32" Name="quantity" Nullable="true" />
+          <Property Type="Int64" Name="barcode" Nullable="false" />
+          <Property Type="Double" Name="discount" Nullable="true" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="smartcartdbModelStoreContainer" CdmEntityContainer="smartcartdbEntities7">
+          <EntitySetMapping Name="carts">
+            <EntityTypeMapping TypeName="smartcartdbModel.cart">
+              <MappingFragment StoreEntitySet="cart">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="product_id" ColumnName="product_id" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="total" ColumnName="total" />
+                <ScalarProperty Name="receipt_id" ColumnName="receipt_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="smartcartdbModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="barcode" ColumnName="barcode" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="receipts">
+            <EntityTypeMapping TypeName="smartcartdbModel.receipt">
+              <MappingFragment StoreEntitySet="receipt">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="roles">
+            <EntityTypeMapping TypeName="smartcartdbModel.role">
+              <MappingFragment StoreEntitySet="roles">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="userrs">
+            <EntityTypeMapping TypeName="smartcartdbModel.userr">
+              <MappingFragment StoreEntitySet="userr">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GET_RECEIPTS" FunctionName="smartcartdbModel.Store.GET_RECEIPTS">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="smartcartdbModel.GET_RECEIPTS_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="date" ColumnName="date" />
+                <ScalarProperty Name="total" ColumnName="total" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LOGIN_USER" FunctionName="smartcartdbModel.Store.LOGIN_USER">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="smartcartdbModel.LOGIN_USER_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="role_id" ColumnName="role_id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="NEW_RECEIPT" FunctionName="smartcartdbModel.Store.NEW_RECEIPT" />
+          <FunctionImportMapping FunctionImportName="RETURN_PRODUCT" FunctionName="smartcartdbModel.Store.RETURN_PRODUCT">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="smartcartdbModel.RETURN_PRODUCT_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="price" ColumnName="price" />
+                <ScalarProperty Name="quantity" ColumnName="quantity" />
+                <ScalarProperty Name="barcode" ColumnName="barcode" />
+                <ScalarProperty Name="discount" ColumnName="discount" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="SIGNUP_USER" FunctionName="smartcartdbModel.Store.SIGNUP_USER" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

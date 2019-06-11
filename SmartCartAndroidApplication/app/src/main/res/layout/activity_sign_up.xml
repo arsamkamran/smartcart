@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.smartcart.arsam.smartcart.SignUpActivity"
+    android:background="@color/colorPrimary">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center_horizontal|center_vertical">
+
+        <com.andreabaccega.widget.FormEditText
+            app:testErrorString="Enter Full Name"
+            app:testType="personFullName"
+            android:inputType="textPersonName"
+            android:id="@+id/et_name_signup"
+            android:layout_width="300dp"
+            android:layout_centerHorizontal="true"
+            android:hint="Name"
+            android:layout_height="48dp"
+            android:padding="10dp"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
+            android:background="@color/colorPrimaryDark" />
+
+        <com.andreabaccega.widget.FormEditText
+            android:inputType="textEmailAddress"
+            app:testErrorString="Please Enter a Valid Email"
+            app:testType="email"
+            android:id="@+id/et_email_signup"
+            android:layout_width="wrap_content"
+            android:layout_alignEnd="@+id/et_name_signup"
+            android:layout_alignRight="@+id/et_name_signup"
+            android:layout_alignStart="@id/et_name_signup"
+            android:layout_alignLeft="@id/et_name_signup"
+            android:layout_below="@+id/et_name_signup"
+            android:layout_marginTop="30dp"
+            android:hint="Email"
+            android:layout_height="48dp"
+            android:padding="10dp"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
+            android:background="@color/colorPrimaryDark"/>
+        
+        <com.andreabaccega.widget.FormEditText
+            android:id="@+id/et_password_signup"
+            android:layout_width="wrap_content"
+            android:layout_alignEnd="@+id/et_name_signup"
+            android:layout_alignRight="@+id/et_name_signup"
+            android:layout_alignStart="@id/et_name_signup"
+            android:layout_alignLeft="@id/et_name_signup"
+            android:layout_below="@+id/et_email_signup"
+            android:layout_marginTop="30dp"
+            android:hint="Password"
+            android:inputType="textPassword"
+            app:testErrorString="Cannot be Empty"
+            app:testType="nocheck"
+            android:layout_height="48dp"
+            android:padding="10dp"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
+            android:background="@color/colorPrimaryDark"/>
+        
+        <com.andreabaccega.widget.FormEditText
+            android:id="@+id/et_c_password_signup"
+            android:layout_width="wrap_content"
+            android:layout_alignEnd="@+id/et_password_signup"
+            android:layout_alignRight="@+id/et_password_signup"
+            android:layout_alignStart="@id/et_password_signup"
+            android:layout_alignLeft="@id/et_password_signup"
+            android:layout_below="@+id/et_password_signup"
+            android:layout_marginTop="30dp"
+            android:hint="Confirm Password"
+            android:inputType="textPassword"
+            app:testErrorString="Cannot be Empty"
+            app:testType="nocheck"
+            android:layout_height="48dp"
+            android:padding="10dp"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF"
+            android:background="@color/colorPrimaryDark"/>
+
+        <Button
+            android:id="@+id/btn_signup_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/et_c_password_signup"
+            android:layout_alignStart="@+id/et_c_password_signup"
+            android:layout_alignEnd="@id/et_c_password_signup"
+            android:layout_alignRight="@id/et_c_password_signup"
+            android:layout_below="@+id/et_c_password_signup"
+            android:layout_marginTop="33dp"
+            android:text="SIGNUP"
+            android:backgroundTint="@color/colorAccent"
+            android:textColor="#FFF"/>
+
+        <Button
+            android:id="@+id/btn_login_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/et_c_password_signup"
+            android:layout_alignStart="@+id/et_c_password_signup"
+            android:layout_alignEnd="@id/et_c_password_signup"
+            android:layout_alignRight="@id/et_c_password_signup"
+            android:layout_below="@+id/btn_signup_signup"
+            android:layout_marginTop="10dp"
+            android:text="LOGIN"/>
+        
+    </RelativeLayout>
+    
+</LinearLayout>

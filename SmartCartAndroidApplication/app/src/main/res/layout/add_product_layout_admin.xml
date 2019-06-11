@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:gravity="center">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"/>
+
+    <EditText
+        android:id="@+id/edt_name_add_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter name"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Description"/>
+
+    <EditText
+        android:id="@+id/edt_desc_add_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter a description"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Price"/>
+
+    <EditText
+        android:id="@+id/edt_price_add_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter price"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Quantity"/>
+
+    <EditText
+        android:id="@+id/edt_quantity_add_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter quantity"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Barcode"/>
+
+    <EditText
+        android:id="@+id/edt_barcode_add_product"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Enter barcode"/>
+
+
+</LinearLayout>
